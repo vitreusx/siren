@@ -31,3 +31,5 @@ So, for example, one would copy `.env` file to `.env.local`, add the requisite s
 ```sh
 docker-compose --env-file .env.local up --build
 ```
+
+A Spotify app (created in the [Dashboard](https://developer.spotify.com/dashboard/login)) is required for the functioning of the local instance. Moreover, a correct redirect URI (`${API_SERVER}/auth/spotify/callback`) must be added to the list of Redirect URIs in the settings.
