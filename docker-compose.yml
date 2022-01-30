@@ -31,7 +31,7 @@ services:
         condition: service_healthy
     environment:
       - SERVER_HOST
-      - SERVER_PORT
+      - FLASK_PORT
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
@@ -41,7 +41,7 @@ services:
       - SPOTIFY_CLIENT_SECRET
       - FLASK_SECRET
     ports:
-      - 8001:${SERVER_PORT}
+      - ${SERVER_PORT}:${FLASK_PORT}
 
   web:
     build: 
