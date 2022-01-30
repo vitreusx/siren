@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+        - image: {{PROXY_IMAGE}}
+          imagePullPolicy: IfNotPresent
+          name: proxy
+          ports:
+            - containerPort: {{WEB_PORT}}
+            - containerPort: {{SERVER_PORT}}
+      restartPolicy: Always

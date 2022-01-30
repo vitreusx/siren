@@ -1,0 +1,17 @@
+server {
+    listen {{SERVER_PORT}};
+    listen [::]:{{SERVER_PORT}};
+
+    location / {
+        proxy_pass http://server:{{SERVER_PORT}};
+    }
+}
+
+server {
+    listen {{WEB_PORT}};
+    listen [::]:{{WEB_PORT}};
+
+    location / {
+        proxy_pass http://web:{{WEB_PORT}};
+    }
+}
