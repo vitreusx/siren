@@ -9,7 +9,9 @@ docker build \
 echo "Loading ${PROXY_IMAGE} into minikube"
 minikube image load "${PROXY_IMAGE}"
 
-python k8s/resolver.py -i k8s/proxy -o resolved-k8s/proxy
-kubectl apply -f resolved-k8s/proxy/service.yml
+python render.py minikube/proxy-service.yml.j2
 
-echo "Reminder: minikube tunnel may be required"
+echo "Deploying proxy service in order to determine cluster IP"
+kubectl apply -f minikube/proxy-service.yml
+
+echo "Reminder: running `minikube tunnel` may be required"

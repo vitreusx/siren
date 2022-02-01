@@ -34,5 +34,6 @@ spec:
       restartPolicy: Always
       volumes:
         - name: mongo-data
-          persistentVolumeClaim:
-            claimName: mongo-data
+          hostPath:
+            path: /data/mongo-data
+            type: DirectoryOrCreate

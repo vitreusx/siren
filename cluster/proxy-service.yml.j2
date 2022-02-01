@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy
+spec:
+  selector:
+    app: proxy
+  ports:
+    - name: server
+      port: {{SERVER_PORT}}
+      targetPort: {{SERVER_PORT}}
+    - name: web
+      port: {{WEB_PORT}}
+      targetPort: {{WEB_PORT}}
+  type: NodePort

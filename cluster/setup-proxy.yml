@@ -1,13 +1,11 @@
 - hosts: control-1
-  vars:
-    proxy_dir: /home/ubuntu/resolved-k8s
   tasks:
     - name: copy the resolved k8s files
       synchronize:
-        src: ../resolved-k8s
+        src: proxy-service.yml
         dest: /home/ubuntu
         archive: no
         recursive: yes
 
     - name: deploy proxy service
-      shell: "kubectl apply -f ~/resolved-k8s/proxy/service.yml"
+      shell: "kubectl apply -f ~/proxy-service.yml"

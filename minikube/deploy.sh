@@ -1,11 +1,7 @@
 #!/usr/bin/sh
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 cluster-ip"
-    exit 1
-fi
+read -p "Enter cluster IP: " CLUSTER_IP
 
-CLUSTER_IP="$1"
 export API_SERVER=http://${CLUSTER_IP}:${SERVER_PORT}
 export AUTH_SERVER=${API_SERVER}
 export HOMEPAGE=http://${CLUSTER_IP}:${WEB_PORT}
@@ -29,7 +25,8 @@ minikube image load "${WEB_IMAGE}"
 
 read -p "Remember to add ${API_SERVER}/auth/spotify/callback to the list of Redirect URIs in the Spotify app!"
 
-python k8s/resolver.py
-kubectl apply --recursive -f resolved-k8s/
+export RENDERED_K8S=$(mktemp -d)
+python render.py k8s ${RENDERED_K8S}
+kubectl apply --recursive -f ${RENDERED_K8S}/
 
 echo "The website is hosted at ${HOMEPAGE}"

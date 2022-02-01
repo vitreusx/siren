@@ -114,50 +114,49 @@ output "nodes_ips" {
   value       = [aws_instance.nodes.*.public_ip]
 }
 
-data "aws_subnet_ids" "default_subnet_ids" {
-  vpc_id = aws_default_vpc.default.id
-}
+# data "aws_subnet_ids" "default_subnet_ids" {
+#   vpc_id = aws_default_vpc.default.id
+# }
 
-resource "aws_lb" "load_balancer" {
-  subnets            = data.aws_subnet_ids.default_subnet_ids.ids
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.cluster_sg.id]
-}
+# resource "aws_lb" "load_balancer" {
+#   subnets            = data.aws_subnet_ids.default_subnet_ids.ids
+#   internal           = false
+#   load_balancer_type = "application"
+#   security_groups    = [aws_security_group.cluster_sg.id]
+# }
 
-resource "aws_lb_target_group" "server" {
-  vpc_id      = aws_default_vpc.default.id
-  target_type = "instance"
-  protocol    = "HTTP"
-  port        = var.server_port
-}
+# resource "aws_lb_target_group" "server" {
+#   vpc_id      = aws_default_vpc.default.id
+#   target_type = "instance"
+#   protocol    = "HTTP"
+#   port        = var.server_port
+# }
 
-resource "aws_lb_listener" "server" {
-  load_balancer_arn = aws_lb.load_balancer.id
-  protocol          = "HTTP"
-  port              = var.server_port
+# resource "aws_lb_listener" "server" {
+#   load_balancer_arn = aws_lb.load_balancer.id
+#   protocol          = "HTTP"
+#   port              = var.server_port
 
-  default_action {
-    target_group_arn = aws_lb_target_group.server.id
-    type             = "forward"
-  }
-}
+#   default_action {
+#     target_group_arn = aws_lb_target_group.server.id
+#     type             = "forward"
+#   }
+# }
 
-resource "aws_lb_target_group" "web" {
-  vpc_id      = aws_default_vpc.default.id
-  target_type = "instance"
-  protocol    = "HTTP"
-  port        = var.web_port
-}
+# resource "aws_lb_target_group" "web" {
+#   vpc_id      = aws_default_vpc.default.id
+#   target_type = "instance"
+#   protocol    = "HTTP"
+#   port        = var.web_port
+# }
 
-resource "aws_lb_listener" "web" {
-  load_balancer_arn = aws_lb.load_balancer.id
-  protocol          = "HTTP"
-  port              = var.web_port
+# resource "aws_lb_listener" "web" {
+#   load_balancer_arn = aws_lb.load_balancer.id
+#   protocol          = "HTTP"
+#   port              = var.web_port
 
-  default_action {
-    target_group_arn = aws_lb_target_group.web.id
-    type             = "forward"
-  }
-}
-
+#   default_action {
+#     target_group_arn = aws_lb_target_group.web.id
+#     type             = "forward"
+#   }
+# }

@@ -39,8 +39,6 @@ services:
       - FLASK_SECRET
     ports:
       - ${SERVER_PORT}:${FLASK_PORT}
-    labels:
-      kompose.service.type: loadbalancer
 
   web:
     build: 
@@ -51,8 +49,6 @@ services:
         HOMEPAGE: ${HOMEPAGE}
     ports:
       - ${WEB_PORT}:80
-    labels:
-      kompose.service.type: loadbalancer
 
 volumes:
   data:

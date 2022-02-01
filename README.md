@@ -26,10 +26,12 @@ For the purposes of development, a `docker-compose.yml` file has been provided. 
   - `DB_PASSWORD`: database password, may as well be random if `mongo` database from the Docker Compose file is used;
   - `FLASK_SECRET`: Flask server secret, may as well be random if `server` Flask server from the Docker Compose file is used.
 
-So, for example, one would copy `.env` file to `.env.local`, add the requisite secrets and run:
+One could therefore run:
 
 ```sh
-docker-compose --env-file .env.local up --build
+export $(cat .env | xargs)
+export $(cat .env.secret | xargs)
+docker-compose up --build
 ```
 
 The web application should then be available over at `http://localhost:${WEB_PORT}`.
@@ -53,5 +55,13 @@ This command setups up a load balancer, which we need in order to obtain the clu
 and wait 'til the `EXTERNAL-IP` value is not `<pending>`. After that, run
 
 ```sh
-./minikube/setup-rest.sh ${EXTERNAL_IP}
+./minikube/deploy.sh
 ```
+
+## Deploying to a cluster
+
+The infrastructure is a single `t2.micro` instance as a control node, and 4 `t2.nano` instances for running the `web`, `server`, `mongo` and `proxy` deployments. We do not use EKS, so we don't get access to load balancers etc.
+
+Instead of a load balancer, we use `NodePort` for a gateway. Because of this, after we deploy a proxy service with `./cluster/setup-proxy.sh`, we need to get the rebound Web and server port numbers (with `kubectl get svc proxy`, column `PORT(S)`). After that, it should suffice to run `./cluster/deploy.sh` and wait for all the pods to become operational (which might take a while).
+
+> Currently, the service is available at `http://52.87.228.242:31809/`

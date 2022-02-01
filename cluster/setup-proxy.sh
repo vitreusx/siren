@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
-python k8s/resolver.py \
-    -i k8s/proxy \
-    -o resolved-k8s/proxy
+python render.py cluster/proxy-service.yml.j2
 
-ansible-playbook -i cluster/hosts.yml cluster/setup-proxy.yml
+ansible-playbook \
+    -i cluster/hosts.yml \
+    cluster/setup-proxy.yml

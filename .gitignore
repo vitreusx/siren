@@ -1,2 +1,2 @@
-.env.local
-resolved-k8s
+.env.secret
+rendered-k8s
