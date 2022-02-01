@@ -9,7 +9,7 @@ def make_parser():
     parser = argparse.ArgumentParser(description="k8s config file resolver")
     pwd = Path(__file__).parent
     parser.add_argument("-i", "--input-dir", default=str(pwd))
-    parser.add_argument("-o", "--output-dir", default="k8s.resolved")
+    parser.add_argument("-o", "--output-dir", default="resolved-k8s")
     return parser
 
 def main():

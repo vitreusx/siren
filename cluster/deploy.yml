@@ -1,0 +1,30 @@
+- hosts: control-1
+  vars:
+    local_images: "{{ lookup('env', 'IMAGES_DIR') }}"
+    remote_images: "/home/ubuntu/images"
+    local_k8s: "{{ lookup('env', 'K8S_DIR') }}"
+    remote_k8s: "/home/ubuntu/k8s"
+  tasks:
+    - name: copy the k8s config
+      synchronize:
+        src: "{{ local_k8s }}/"
+        dest: "{{ remote_k8s }}"
+        archive: no
+        recursive: yes
+
+    - name: copy the images
+      synchronize:
+        src: "{{ local_images }}/"
+        dest: "{{ remote_images }}"
+        archive: no
+        recursive: yes
+
+    - name: load the images
+      become: yes
+      shell: |
+        docker load <"{{ remote_images }}"/proxy.tar.gz
+        docker load <"{{ remote_images }}"/server.tar.gz
+        docker load <"{{ remote_images }}"/web.tar.gz
+
+    - name: deploy
+      shell: kubectl apply --recursive -f "{{ remote_k8s }}"

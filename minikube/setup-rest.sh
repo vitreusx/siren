@@ -30,6 +30,6 @@ minikube image load "${WEB_IMAGE}"
 read -p "Remember to add ${API_SERVER}/auth/spotify/callback to the list of Redirect URIs in the Spotify app!"
 
 python k8s/resolver.py
-kubectl apply --recursive -f k8s.resolved/
+kubectl apply --recursive -f resolved-k8s/
 
 echo "The website is hosted at ${HOMEPAGE}"
