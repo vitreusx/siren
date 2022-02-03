@@ -63,5 +63,3 @@ and wait 'til the `EXTERNAL-IP` value is not `<pending>`. After that, run
 The infrastructure is a single `t2.micro` instance as a control node, and 4 `t2.nano` instances for running the `web`, `server`, `mongo` and `proxy` deployments. We do not use EKS, so we don't get access to load balancers etc.
 
 Instead of a load balancer, we use `NodePort` for a gateway. Because of this, after we deploy a proxy service with `./cluster/setup-proxy.sh`, we need to get the rebound Web and server port numbers (with `kubectl get svc proxy`, column `PORT(S)`). After that, it should suffice to run `./cluster/deploy.sh` and wait for all the pods to become operational (which might take a while).
-
-> Currently, the service is available at `http://52.87.228.242:31809/`
